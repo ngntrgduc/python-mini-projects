@@ -1,4 +1,5 @@
 from time import sleep
+from datetime import datetime
 
 import fire
 from pydub import AudioSegment
@@ -37,7 +38,7 @@ def flow_mode() -> None:
     except KeyboardInterrupt:
         print('Flowtime ended.')
 
-def pomodoro(time: int) -> None:
+def pomodoro(time: int, quiet: bool) -> None:
     """Pomodoro mode"""
     try:
         while time > 0:
@@ -46,18 +47,20 @@ def pomodoro(time: int) -> None:
             sleep(60)
             time -= 1
 
-        print('End of pomodoro.')
-        play_sound()
+        print(f"Pomodoro ended at {datetime.today().strftime('%H:%M:%S')}.")
+        if not quiet:
+            play_sound()
     except KeyboardInterrupt:
         print('Interupted by keyboard')
 
 def main(
         time: int = 25,
         flow: bool = False,
+        quiet: bool = False,
     ) -> None:
 
     if not flow:
-        pomodoro(time)
+        pomodoro(time, quiet)
     else:
         flow_mode()
     
